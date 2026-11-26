@@ -1,14 +1,9 @@
 import { defineConfig } from 'vitepress'
-import { readdirSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const docsRoot = fileURLToPath(new URL('..', import.meta.url))
-
-/** 目录名 -> 侧边栏标题；新增主题时在这里补一行即可 */
-const SECTION_TITLES: Record<string, string> = {
-  jwt: 'JWT 鉴权',
-}
 
 interface Meta {
   title: string
@@ -31,6 +26,14 @@ function readMeta(file: string): Meta {
   }
 }
 
+/** 主题目录的标题与顺序都来自该目录的 index.md；没有就退回目录名 */
+function topicMeta(dir: string): { title: string; order: number } {
+  const indexFile = resolve(docsRoot, dir, 'index.md')
+  if (!existsSync(indexFile)) return { title: dir, order: Number.MAX_SAFE_INTEGER }
+  const meta = readMeta(indexFile)
+  return { title: meta.title, order: meta.order }
+}
+
 /** 一个主题目录下的所有 .md，按 order 排序，index.md 永远第一 */
 function section(dir: string) {
   const abs = resolve(docsRoot, dir)
@@ -51,8 +54,8 @@ function section(dir: string) {
 
 const topics = readdirSync(docsRoot, { withFileTypes: true })
   .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'public')
-  .map((entry) => entry.name)
-  .sort()
+  .map((entry) => ({ dir: entry.name, ...topicMeta(entry.name) }))
+  .sort((a, b) => a.order - b.order || a.dir.localeCompare(b.dir))
 
 /**
  * 中文分词：MiniSearch 默认按空格切词，中文没有空格，会整段变成一个 token。
@@ -92,12 +95,12 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: '首页', link: '/' },
-      { text: 'JWT', link: '/jwt/' },
+      { text: '使用说明', link: '/guide' },
     ],
-    sidebar: topics.map((dir) => ({
-      text: SECTION_TITLES[dir] ?? dir,
+    sidebar: topics.map((topic) => ({
+      text: topic.title,
       collapsed: false,
-      items: section(dir),
+      items: section(topic.dir),
     })),
     outline: { level: [2, 3], label: '本页目录' },
     docFooter: { prev: '上一篇', next: '下一篇' },
