@@ -1,7 +1,7 @@
 ---
 title: HTTP 授权与 Bearer
 order: 4
-description: Authorization 头、Bearer 的「持有即授权」、其它 scheme 与 401/403
+description: Authorization 头、Bearer 的「持有即授权」、其他 scheme 与 401/403
 tags: [http, bearer, oauth2, rfc6750]
 updated: 2026-11-26
 ---
@@ -70,13 +70,13 @@ WWW-Authenticate: Bearer error="invalid_token", error_description="expired"
 401：提示重新登录；403：不要重试，提示无权限或隐藏入口，因为身份是有效的。
 </details>
 
-## 附录：其它 Authorization scheme
+## 附录：其他 Authorization scheme
 
 HTTP 认证 scheme 注册表中与 API 相关的几种：
 
 | Scheme | 含义 | 规范 | 典型场景 |
 | --- | --- | --- | --- |
-| `Bearer` | 持有即授权 | RFC 6750 | OAuth2 access token、API，事实标准 |
+| `Bearer` | 持有即授权 | RFC 6750 | OAuth2 access token、API，实际上的通用做法 |
 | `Basic` | `base64(user:password)` | RFC 7617 | 简单 API；每个请求都带密码，必须 TLS |
 | `Digest` | 挑战—响应式摘要 | RFC 7616 | 基本淘汰 |
 | `Negotiate` | Kerberos / SPNEGO | RFC 4559 | 企业内网 SSO |

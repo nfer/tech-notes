@@ -56,7 +56,7 @@ curl -si http://127.0.0.1:8787/me            # 不带 token，看 401 + WWW-Auth
 
 ## 「claim 是快照」
 
-`/admin` 刻意读 token 里的 `role`。后台把 bob 升为 admin 后，他手里的旧 token 仍然写着 `role=user`，直到重新登录。这是 JWT 用「无状态」换来的延迟一致性。
+`/admin` 刻意读 token 里的 `role`。后台把 bob 升为 admin 后，他手里的旧 token 仍然写着 `role=user`，直到重新登录。这是 JWT 用「无状态」换来的延迟：角色改了，旧 token 要等重新登录或过期才跟上。
 
 反过来，`/me` 的用户名从 DB 读：token 里即使有 `name`，也不应该拿它当权威数据（改名后就不对了）。
 

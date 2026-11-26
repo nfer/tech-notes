@@ -11,7 +11,7 @@
 | `../lib/jwt.mjs` | 手写 HS256 签发/验签（零依赖，只用 `node:crypto`） |
 | `01-anatomy.mjs` | 解剖三段、打印签名输入、对比正确/错误 secret |
 | `02-tamper.mjs` | 改 payload 的 role / 改 exp，观察签名失效；对比"不验签的服务端" |
-| `03-alg-none.mjs` | 伪造 `alg:none`，打穿一个天真实现 |
+| `03-alg-none.mjs` | 伪造 `alg:none`，打穿一个不设防的实现 |
 | `04-claims.mjs` | 签名有效但过期 / aud 不对 / 已吊销，三种"不可用" |
 
 运行（`node` 需在 PATH 里）：
@@ -23,7 +23,7 @@ node l1/01-anatomy.mjs
 
 ## 实验步骤：先预测，再运行
 
-**每一小步都先写下你的预测，再跑。预测错了才是学到东西的时刻。**
+**先写下预测再运行；预测和结果不一致的地方，才是需要弄明白的地方。**
 
 1. 跑 `01-anatomy.mjs`。回答：`signature` 段是 32 字节，那它编码前是什么？为什么长度固定？
 2. 打开 `01-anatomy.mjs`，把 `expiresIn: 3600` 改成 `-10`（已过期），跑。观察 `verifySignature` 是否仍然 `ok: true`。这说明什么？

@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: 个人 Wiki
-  text: 边学边记，按主题沉淀
-  tagline: 一个主题一个目录，结论先行、可以验证
+  text: 边学边记，一个主题一个目录
+  tagline: 先给结论，再给验证方式
   actions:
     - theme: brand
       text: 使用说明

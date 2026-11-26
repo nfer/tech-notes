@@ -24,7 +24,7 @@ node l1/01-anatomy.mjs
 
 ## 待补主题
 
-- 刷新令牌与轮换、静默续期
+- 刷新令牌与轮换、静默刷新
 - 客户端存储：httpOnly Cookie vs localStorage
 - 非对称签名、JWKS、`kid` 与密钥轮换
 - 攻击面清单与 OIDC
