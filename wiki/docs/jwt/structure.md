@@ -13,11 +13,11 @@ updated: 2026-11-26
 
 ## 三个部分
 
-| 段 | 装什么 | 典型字段 | 谁生成 |
-| --- | --- | --- | --- |
-| header | 元数据 | `alg`、`typ`、`kid` | 签发方 |
-| payload | claims（声明） | `sub`、`exp`、`iat`、`aud`、`iss`、`jti` | 签发方 |
-| signature | 签名值 | 签名算法输出的 base64url | 签发方（持有密钥） |
+| 段 | 装什么 | 典型字段 |
+| --- | --- | --- |
+| header | 元数据 | `alg`、`typ`、`kid` |
+| payload | claims（声明） | `sub`、`exp`、`iat`、`aud`、`iss`、`jti` |
+| signature | 签名值 | 签名算法输出的 base64url |
 
 三段都用 **base64url** 编码：把 base64 里的 `+` `/` 换成 `-` `_`，并去掉末尾的 `=` 填充。目的是让 token 能安全地放进 URL、Header、Cookie，且不含分隔符 `.`。
 
