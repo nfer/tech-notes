@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# 文档规则检查，对应 AGENTS.md 的写作规则
+set -euo pipefail
+if [ -n "${NODE_BIN:-}" ]; then
+  :
+elif command -v node >/dev/null 2>&1; then
+  NODE_BIN="$(command -v node)"
+else
+  NODE_BIN="$(command -v node)"
+fi
+exec "$NODE_BIN" scripts/check-docs.mjs "$@"
