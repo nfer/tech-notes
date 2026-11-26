@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# 用运行时自带的 Node + pnpm 安装依赖，不依赖全局 PATH
+set -euo pipefail
+NODE_BIN="${NODE_BIN:-$(command -v node)}"
+PNPM_JS="${PNPM_JS:-$(command -v pnpm)}"
+export PATH="$(dirname "$NODE_BIN"):$PATH"
+exec pnpm install "$@"

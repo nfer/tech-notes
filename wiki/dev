@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# dev 优先用 PATH 里的 node（自带 Node 的签名无法加载 rollup 原生模块）
+set -euo pipefail
+if [ -n "${NODE_BIN:-}" ]; then
+  :
+elif command -v node >/dev/null 2>&1; then
+  NODE_BIN="$(command -v node)"
+else
+  NODE_BIN="$(command -v node)"
+fi
+export PATH="$(dirname "$NODE_BIN"):$PATH"
+exec "$NODE_BIN" node_modules/vitepress/bin/vitepress.js dev docs "$@"

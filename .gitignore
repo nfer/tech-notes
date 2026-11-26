@@ -31,3 +31,10 @@ tmp/
 .vscode/
 .idea/
 *.swp
+
+# ---- VitePress ----
+wiki/docs/.vitepress/cache/
+wiki/docs/.vitepress/dist/
+
+# ---- pnpm 本地缓存 ----
+.pnpm-store/
