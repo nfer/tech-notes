@@ -60,8 +60,6 @@ const token = `${input}.${signature}`
 - 没有 secret → 伪造不出来（防伪造）；
 - 验证方拿同一把 secret 重算一遍就能比对（服务端不用存 token）。
 
-> `RS256` / `ES256` 是非对称版本：私钥签、公钥验，密钥怎么分发是另一套逻辑，留到「密钥与算法」那篇展开。
-
 ## 签名不是加密
 
 你现在看到的 `header.payload.signature` 三段，是 **JWS**（JSON Web Signature）的紧凑格式，它只做签名，不做加密。规范里还有一种 **JWE**（JSON Web Encryption），把 payload 加密后再传输；它的紧凑格式是**五段**，验证方必须先解密才能读到 claims。
