@@ -16,40 +16,12 @@ updated: 2026-11-26
 | 段 | 装什么 | 典型字段 | 谁生成 |
 | --- | --- | --- | --- |
 | header | 元数据 | `alg`（如 `HS256`）、`typ`、`kid` | 签发方 |
-| payload | claims（声明） | 见下方「payload 里装的是什么」 | 签发方 |
+| payload | claims（声明） | `sub`、`exp`、`iat`、`aud`、`iss`、`jti` | 签发方 |
 | signature | 签名值 | 签名算法输出的 base64url | 签发方（持有密钥） |
 
 三段都用 **base64url** 编码：把 base64 里的 `+` `/` 换成 `-` `_`，并去掉末尾的 `=` 填充。目的是让 token 能安全地放进 URL、Header、Cookie，且不含分隔符 `.`。
 
 base64url 是**编码**，不是加密——任何人拿到 token 都能解开看内容。所以 payload 里不要放密码、身份证号这类东西，放一个 `sub`（用户 id）就够了。
-
-## payload 里装的是什么：claims
-
-RFC 7519 对 claim 的定义是：
-
-> A piece of information asserted about a subject.
-
-`asserted` 是「声称、断言」。所以 claim 不是「字段」的花哨说法，它强调**这是签发方单方面做出的声称**：声称这张票代表谁、声称他是什么角色、声称它什么时候过期。
-
-服务端拿到 token 后，可以选择相信这些声称，也可以回查数据库——这个选择就是后面「读 claim 还是查数据库」那个权衡的语言基础。
-
-一个 claim 是「名字 + 值」的键值对。JWT 标准预定义了七个可互操作的注册名（registered claim names），它们的共同点是**名字都很短**：
-
-| 短名 | 全称 | 含义 |
-| --- | --- | --- |
-| `iss` | Issuer | 签发方 |
-| `sub` | Subject | 主体，即这张票说的是谁 |
-| `aud` | Audience | 接收方，即这张票发给谁 |
-| `exp` | Expiration Time | 过期时刻，到这个时间之后必须拒绝 |
-| `nbf` | Not Before | 生效时刻，早于这个时间必须拒绝 |
-| `iat` | Issued At | 签发时刻 |
-| `jti` | JWT ID | 这张票的唯一标识 |
-
-短是有意为之，RFC 的原话是：
-
-> All the names are short because a core goal of JWTs is for the representation to be compact.
-
-除这七个之外，应用可以自由添加自己的 claim（比如 `role`、`scope`），也可以重复使用已有的名字表达自己领域的含义。
 
 ## 签名到底签了什么
 

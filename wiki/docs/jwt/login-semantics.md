@@ -97,7 +97,7 @@ const now = Math.floor(Date.now() / 1000)
 
 还有第三种情况：票没过期、也没被吊销，但用户的角色或资料已经变了。
 
-token 里写下的那些声称（claim，定义见 [三段结构](/jwt/structure#payload-里装的是什么-claims)）——`sub`、`role`、`exp` 等——在签发时被固定下来，之后不会自动跟着数据库走。所以同一个 token，两种数据来源：
+token 里写下的那些声称（claim，定义见 [claims](/jwt/claims)）——`sub`、`role`、`exp` 等——在签发时被固定下来，之后不会自动跟着数据库走。所以同一个 token，两种数据来源：
 
 - **读 claim**：快，但后台改了角色，旧 token 在过期前仍然带着旧角色；
 - **读数据库**：实时，但每个请求多一次查询。

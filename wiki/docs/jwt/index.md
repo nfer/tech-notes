@@ -12,6 +12,7 @@ order: 1
 - [**三段结构**](/jwt/structure) — `header.payload.signature` 各装了什么，签名到底签了哪些字节
 - [**HTTP 授权与 Bearer**](/jwt/http-auth) — `Authorization` 头、持有即授权的含义、401/403
 - [**登录语义与吊销**](/jwt/login-semantics) — 多设备各自独立，登出为什么要加状态
+- [**claims 与校验**](/jwt/claims) — claim 是什么、七个注册名、校验顺序
 
 ## 配套实验
 
@@ -22,7 +23,6 @@ cd jwt-lab
 
 ## 待补主题
 
-- claims 校验：`exp` / `nbf` / `aud` / `iss` 与时钟偏移
 - 刷新令牌与轮换、静默续期
 - 客户端存储：httpOnly Cookie vs localStorage
 - 非对称签名、JWKS、`kid` 与密钥轮换
