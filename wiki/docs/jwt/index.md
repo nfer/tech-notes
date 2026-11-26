@@ -10,6 +10,7 @@ order: 1
 ## 笔记
 
 - [**三段结构**](/jwt/structure) — `header.payload.signature` 各装了什么，签名到底签了哪些字节
+- [**header 与签名算法**](/jwt/header) — `alg` / `typ` / `kid`，以及算法白名单为什么必须由服务端定
 - [**claims 与校验**](/jwt/claims) — claim 是什么、七个注册名、校验顺序
 - [**HTTP 授权与 Bearer**](/jwt/http-auth) — `Authorization` 头、持有即授权的含义、401/403
 - [**登录语义与吊销**](/jwt/login-semantics) — 多设备各自独立，登出为什么要加状态

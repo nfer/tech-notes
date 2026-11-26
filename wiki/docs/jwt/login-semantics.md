@@ -1,6 +1,6 @@
 ---
 title: 登录语义与吊销
-order: 4
+order: 5
 description: 登录=新签一张票、多设备各自独立、登出为什么必须加状态
 tags: [jwt, session, revocation]
 lesson: L2

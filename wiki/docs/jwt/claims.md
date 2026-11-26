@@ -1,6 +1,6 @@
 ---
 title: claims 与校验
-order: 2
+order: 3
 description: claim 是什么、七个注册名，以及服务端按什么顺序校验它们
 tags: [jwt, claims, rfc7519]
 updated: 2026-11-26
@@ -46,7 +46,7 @@ JWT 标准预定义了七个可互操作的注册名（registered claim names）
 
 验签和读 claim 之间有严格的先后：**没验签就解出的 claim，等同于攻击者直接写给你的输入**。
 
-1. **验签 + 算法白名单**：签名不对、或者 `alg` 不在允许列表里，直接拒绝。这一关之前，claim 一个字都不能信。
+1. **验签 + 算法白名单**：签名算法写在 token 头部，字段名是 `alg`（如 `HS256`，详见 [header 与签名算法](/jwt/header)）。服务端必须用自己的白名单判断这个值，而不是照 token 说的用——签名不对、算法不被允许，直接拒绝。这一关之前，claim 一个字都不能信。
 2. **`exp` / `nbf`**：当前时间必须早于 `exp`、晚于或等于 `nbf`。
 3. **`aud` / `iss`**：这张票是不是签给我的、是谁签的。RFC 明确要求：如果参与处理的实体不在 `aud` 列表里，**必须拒绝**。
 4. **应用级状态**：`jti` 是否在吊销名单里、用户版本号是否过期。
@@ -88,13 +88,13 @@ cd jwt-lab
 </details>
 
 <details>
-<summary>2. `aud` 到底防的是什么？</summary>
+<summary>2. <code>aud</code> 到底防的是什么？</summary>
 
 防「张冠李戴」：A 服务签给 A 的票，被拿去请求 B 服务。B 只要检查 `aud` 里有没有自己，这类越权就直接被拒。
 </details>
 
 <details>
-<summary>3. `exp` 判断写成 `now > exp` 和 `now >= exp` 有区别吗？</summary>
+<summary>3. <code>exp</code> 判断写成 <code>now > exp</code> 和 <code>now >= exp</code> 有区别吗？</summary>
 
 有。RFC 要求「到 `exp` 那一刻起」就不能接受，`now >= exp` 才是正确的边界；`now > exp` 会多放行整整一秒。
 </details>
