@@ -48,17 +48,11 @@ curl -s http://127.0.0.1:8787/me -H "Authorization: Bearer <粘贴 token>"
 curl -si http://127.0.0.1:8787/me            # 不带 token，看 401 + WWW-Authenticate
 ```
 
-## 三种「让 token 失效」的方案
+## 吊销方案
 
-这是 Q2 的完整答案，代价各不相同：
+三种方案的代价对比见 Wiki：[登录语义与吊销](../../wiki/docs/jwt/login-semantics.md)。
 
-| 方案 | 生效范围 | 代价 |
-| --- | --- | --- |
-| `jti` 黑名单 | 单个 token | 每次请求多一次查询；条目必须保留到该 token 的 `exp` 才能删 |
-| `tokenVersion` | 该用户全部 token | 每次请求查一次用户；适合「改密码 / 封号 / 全部设备下线」 |
-| 短 TTL + refresh token | 最多 TTL 秒 | 需要刷新流程（L3），但让 access token 真正无状态 |
-
-注意：黑名单放内存，进程一重启就没了——生产要放 Redis，并设置 TTL = token 剩余寿命。
+注意：本 demo 的黑名单放内存，进程一重启就没了；生产要放 Redis，并设置 TTL = token 剩余寿命。
 
 ## 「claim 是快照」
 
