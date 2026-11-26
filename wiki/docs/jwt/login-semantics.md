@@ -13,7 +13,7 @@ updated: 2026-11-26
 
 ## 登录到底发生了什么
 
-`POST /login` 只做两件事：验密码、签新 token。服务端不记录「这个用户登录过几次」，也不存在「续期某个 session」。
+一次登录请求只做两件事：验密码、签发一张新 token。服务端不记录「这个用户登录过几次」，也不存在「续期某个 session」。
 
 ```js
 // 每次调用都生成新的 jti 和新的 exp
@@ -55,7 +55,7 @@ sign({ sub: user.id, jti: crypto.randomUUID(), ver: user.tokenVersion },
 
 ## claim 是快照
 
-`/admin` 读 token 里的 `role`，`/me` 读 DB 里的用户名——同一个 token，两种数据来源：
+同一个服务里，管理员接口读 token 里的 `role`，个人资料接口则回查数据库——同一个 token，两种数据来源：
 
 - 读 claim：快，但后台改了角色，旧 token 在过期前仍是旧角色；
 - 读 DB：实时，但每个请求多一次查询。
