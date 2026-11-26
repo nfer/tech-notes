@@ -1,8 +1,8 @@
 ---
 title: JWT 三段结构
 order: 1
-description: header.payload.signature 各装了什么，签名到底签了哪些字节
-tags: [jwt, jws, base64url]
+description: header.payload.signature 各装了什么，签名输入与 HMAC-SHA256
+tags: [jwt, jws, base64url, hmac]
 lesson: L1
 updated: 2026-11-26
 ---
@@ -15,9 +15,9 @@ updated: 2026-11-26
 
 | 段 | 装什么 | 典型字段 | 谁生成 |
 | --- | --- | --- | --- |
-| header | 元数据 | `alg`、`typ`、`kid` | 签发方 |
+| header | 元数据 | `alg`（如 `HS256`）、`typ`、`kid` | 签发方 |
 | payload | claims（声明） | `sub`、`exp`、`iat`、`aud`、`iss`、`jti` | 签发方 |
-| signature | 签名值 | 二进制签名的 base64url | 签发方（持有密钥） |
+| signature | 签名值 | 签名算法输出的 base64url | 签发方（持有密钥） |
 
 三段都用 **base64url** 编码：把 base64 里的 `+` `/` 换成 `-` `_`，并去掉末尾的 `=` 填充。目的是让 token 能安全地放进 URL、Header、Cookie，且不含分隔符 `.`。
 
@@ -29,8 +29,6 @@ base64url 是**编码**，不是加密——任何人拿到 token 都能解开�
 
 ```js
 const input = `${headerB64}.${payloadB64}`
-const signature = crypto.createHmac('sha256', secret).update(input).digest('base64url')
-const token = `${input}.${signature}`
 ```
 
 这带来两个直接推论：
@@ -38,13 +36,46 @@ const token = `${input}.${signature}`
 1. 哪怕在 payload 的 JSON 里加一个空格，`payloadB64` 变了，签名就对不上。所以「改内容 → 重新编码 → 复用旧签名」一定失败。
 2. 签名段本身**不在签名范围内**。它是校验值，不是被校验的内容。
 
-## 签名 ≠ 加密
+## 签名怎么算：HMAC 与 HS256
 
-- **JWS**（RFC 7515）：签名，防篡改。`xxx.yyy.zzz` 三段就是 JWS 紧凑序列化。
-- **JWE**（RFC 7516）：加密，防偷看，五段。
-- JWT 本身（RFC 7519）只定义 claims 的语义；日常说的「JWT」几乎都是 **JWS 签名的 JWT**。
+对上面拼出来的 `input`，HS256 的算法是 `HMAC-SHA256(input, secret)`。名字拆开看：
 
-传输中的机密性由 TLS 保证，token 里的机密性靠「不放敏感信息」保证。需要端到端加密时才用 JWE，绝大多数 Web 登录用不到。
+| 部分 | 含义 |
+| --- | --- |
+| **HMAC** | 带密钥的哈希（Keyed-Hash Message Authentication Code），不是普通 hash |
+| **SHA-256** | HMAC 内部用的哈希函数，输出固定 256 bit = 32 字节 |
+| **HS** | HMAC + SHA 的缩写，`HS256` 就是 HMAC-SHA256 |
+
+HMAC 和普通 hash 的唯一区别是**它需要一把密钥**：同一个输入、同一把 secret，结果永远一样；换一把 secret，结果完全不同；没有 secret，算不出正确签名。
+
+```js
+// HS256：HMAC-SHA256(input, secret)
+const signature = crypto.createHmac('sha256', secret).update(input).digest('base64url')
+const token = `${input}.${signature}`
+```
+
+这正好覆盖 JWT 需要的三件事：
+
+- 改一个字节 → 结果全变（防篡改）；
+- 没有 secret → 伪造不出来（防伪造）；
+- 验证方拿同一把 secret 重算一遍就能比对（服务端不用存 token）。
+
+> `RS256` / `ES256` 是非对称版本：私钥签、公钥验，密钥怎么分发是另一套逻辑，留到「密钥与算法」那篇展开。
+
+## 签名不是加密
+
+你现在看到的 `header.payload.signature` 三段，是 **JWS**（JSON Web Signature）的紧凑格式，它只做签名，不做加密。规范里还有一种 **JWE**（JSON Web Encryption），把 payload 加密后再传输；它的紧凑格式是**五段**，验证方必须先解密才能读到 claims。
+
+| | JWS | JWE |
+| --- | --- | --- |
+| 段数 | 3 | 5 |
+| 作用 | 防篡改 | 防篡改 + 防偷看 |
+| 谁能读 payload | 任何人 | 持有解密密钥的人 |
+| Web 登录 | 基本都用它 | 极少用 |
+
+为什么不默认加密？加密会让**每一个验证方都要能解密**，密钥分发和轮换的复杂度陡增；而传输中的机密性已经由 TLS 解决，token 里本来也不该放秘密。只有需要「连网关、日志都不能看到内容」的端到端场景，才轮到 JWE。
+
+> JWT（RFC 7519）只定义 claims 的语义；JWS（RFC 7515）和 JWE（RFC 7516）定义怎么把它装起来。日常说的 JWT，几乎都是 JWS 形式。
 
 ## 配套实验
 
