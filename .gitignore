@@ -1,0 +1,33 @@
+# ---- 操作系统 ----
+.DS_Store
+Thumbs.db
+
+# ---- 依赖与构建产物 ----
+node_modules/
+dist/
+coverage/
+
+# ---- 日志与临时文件 ----
+*.log
+npm-debug.log*
+*.pid
+tmp/
+.tmp/
+
+# ---- 环境变量 ----
+# 注意：JWT_SECRET 这类东西永远不进仓库；示例配置只提交 .env.example
+.env
+.env.*
+!.env.example
+
+# ---- 密钥材料 ----
+# L5 的 RS256/ES256 演示密钥由脚本在本地生成，不提交私钥
+.keys/
+*.pem
+*.key
+*.p12
+
+# ---- 编辑器 ----
+.vscode/
+.idea/
+*.swp
