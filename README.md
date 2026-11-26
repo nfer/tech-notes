@@ -11,10 +11,12 @@
 
 ```bash
 cd wiki
-./dev        # http://127.0.0.1:5173
+./dev        # 默认 5173；端口被占用会自动顺延，以终端输出为准
 ```
 
-`./dev` 会调用运行时自带的 Node + pnpm，不依赖全局 PATH。第一次运行前需要 `./install`。
+`./dev`、`./build` 优先用 PATH 里的 `node`（nvm / Homebrew 均可），没有才退回运行时自带的 Node。第一次运行前需要 `./install`（已装好可跳过）。
+
+> 为什么不用运行时自带的 Node 构建：它的硬编码签名无法加载 rollup 的原生 `.node` 模块，`build` 会报 `different Team IDs`。
 
 新增主题：在 `wiki/docs/` 下建目录，写 `.md`，侧边栏和搜索会自动收录；目录标题在 `wiki/docs/.vitepress/config.mts` 的 `SECTION_TITLES` 里补一行。
 
