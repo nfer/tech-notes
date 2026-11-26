@@ -30,10 +30,10 @@ L1 里 `verifySignature` 只做了第 1 关。真实服务端的鉴权是五关�
 
 ```bash
 # 终端 1：起服务
-./run l2/server.mjs
+node l2/server.mjs
 
 # 终端 2：把 15 个场景跑一遍（登录、401/403、篡改、alg=none、错 aud、过期、登出、角色快照）
-./run l2/test.mjs
+node l2/test.mjs
 ```
 
 手工玩一下：
@@ -60,7 +60,7 @@ curl -si http://127.0.0.1:8787/me            # 不带 token，看 401 + WWW-Auth
 
 反过来，`/me` 的用户名从 DB 读：token 里即使有 `name`，也不应该拿它当权威数据（改名后就不对了）。
 
-## 留给你的问题（在对话里回答，答完进 L3）
+## 课后问题
 
 - **Q1** `/me` 和 `/admin` 一个查 DB、一个读 token，为什么不统一？各自的风险是什么？
 - **Q2** 黑名单条目什么时候可以删？如果永远不删会怎样？

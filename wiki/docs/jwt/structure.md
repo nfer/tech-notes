@@ -79,7 +79,7 @@ const token = `${input}.${signature}`
 
 ```bash
 cd jwt-lab
-./run l1/01-anatomy.mjs   # 打印三段、签名输入、正确/错误 secret 的验签结果
+node l1/01-anatomy.mjs   # 打印三段、签名输入、正确/错误 secret 的验签结果
 ```
 
 ## 常见误区

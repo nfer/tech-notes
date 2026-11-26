@@ -59,7 +59,7 @@ header 和 payload 一样在签名输入里，签名覆盖的是 `base64url(head
 
 ```bash
 cd jwt-lab
-./run l1/03-alg-none.mjs   # 伪造 alg:none，对比有漏洞与正确的验签实现
+node l1/03-alg-none.mjs   # 伪造 alg:none，对比有漏洞与正确的验签实现
 ```
 
 ## 常见误区

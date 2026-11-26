@@ -1,6 +1,6 @@
 /**
  * Lesson 2 自测：把 9 种「看起来都有 token」的请求跑一遍，看服务端分别怎么答。
- * 运行：./run l2/test.mjs
+ * 运行：node l2/test.mjs
  */
 import { createApp, config, db } from './server.mjs';
 import { sign, b64uJson } from '../lib/jwt.mjs';

@@ -15,26 +15,23 @@
 
 ## 目录
 
-概念与结论整理在 [Wiki](../wiki/docs/index.md) 里；本仓库只保留实验代码与步骤。
+概念与结论整理在 [Wiki](../wiki/docs/index.md) 里；本目录只保留实验代码与步骤。
 
 ```
 lib/jwt.mjs        手写 HS256 签发/验签（所有课共用）
 l1/                解剖三段 + 篡改 + alg=none + 签名≠可用
 l2/                真实服务端：五道鉴权关 + 吊销
-run                用运行时自带的 Node 24 执行脚本
 ```
 
 ## 运行约定
 
-本机 PATH 里没有 `node`，所以用 `./run` 包一层：
+实验脚本要求 `node` 在 PATH 里（`node -v` 有输出即可）：
 
 ```bash
-./run l1/01-anatomy.mjs
-./run l2/server.mjs
-./run l2/test.mjs
+node l1/01-anatomy.mjs
+node l2/server.mjs
+node l2/test.mjs
 ```
-
-你自己的终端里如果 `node -v` 有输出，直接 `node l1/01-anatomy.mjs` 等价。
 
 ## 说明
 

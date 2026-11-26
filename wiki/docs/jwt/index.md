@@ -19,7 +19,7 @@ order: 1
 
 ```bash
 cd jwt-lab
-./run l1/01-anatomy.mjs
+node l1/01-anatomy.mjs
 ```
 
 ## 待补主题

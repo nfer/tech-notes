@@ -14,11 +14,11 @@
 | `03-alg-none.mjs` | 伪造 `alg:none`，打穿一个天真实现 |
 | `04-claims.mjs` | 签名有效但过期 / aud 不对 / 已吊销，三种"不可用" |
 
-运行（本机 PATH 没有 node，`run` 里写死了运行时自带的 Node 24）：
+运行（`node` 需在 PATH 里）：
 
 ```bash
 cd jwt-lab
-./run l1/01-anatomy.mjs
+node l1/01-anatomy.mjs
 ```
 
 ## 实验步骤：先预测，再运行
@@ -31,7 +31,7 @@ cd jwt-lab
 4. 跑 `03-alg-none.mjs`。然后改一下 `vulnerableVerify`，让它同时拒绝 `alg:"none"` 和接受 `alg:"HS256"`，验证伪造 token 被拦。
 5. 跑 `04-claims.mjs`。重点看第一段输出：签名合法的过期 token。
 
-## 课后问题（已在对话中回答）
+## 课后问题
 
 - **Q1** JWT 为什么设计成"签名 + 明文"而不是加密？加密不是更安全吗？
 - **Q2** 用户点了「退出登录」，你要让那个已经发出去的 JWT 立刻失效，怎么做？代价是什么？

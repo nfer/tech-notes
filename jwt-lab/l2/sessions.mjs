@@ -6,7 +6,7 @@
  *   2. 每张票的 exp 互相独立；后登录不会让先登录的票失效（除非你额外实现）。
  *   3. 代价：密码哈希的 CPU、无限增殖的合法凭证、无法枚举/回收的会话。
  *
- * 运行：./run l2/sessions.mjs
+ * 运行：node l2/sessions.mjs
  */
 import { createApp } from './server.mjs';
 import { decode } from '../lib/jwt.mjs';

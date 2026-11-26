@@ -66,7 +66,7 @@ JWT 标准预定义了七个可互操作的注册名（registered claim names）
 
 ```bash
 cd jwt-lab
-./run l2/test.mjs
+node l2/test.mjs
 ```
 
 覆盖了签名被篡改、`alg=none`、`aud` 不符、已过期四种拒绝路径，以及它们各自返回的错误码。
