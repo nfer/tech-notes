@@ -60,6 +60,40 @@ for (const f of files) {
   }
 }
 
+const TRANSLATIONESE = [
+  ['单一事实源', /单一事实源/],
+  ['凭证增殖', /凭证增殖/],
+  ['事实标准', /事实标准/],
+  ['延迟一致性', /延迟一致性/],
+  ['不含冲突', /不含冲突/],
+  ['应用级状态', /应用级状态/],
+  ['认知坑', /认知坑/],
+  ['天真实现', /天真实现/],
+  ['课程地图', /课程地图/],
+  ['学习仓库', /学习仓库/],
+  ['深入 + 产物名', /深入笔记|深入实验课/],
+]
+
+/** 1b. 翻译腔（AGENTS.md 写作规则 9） */
+for (const f of files) {
+  for (const { text, line } of parse(f)) {
+    for (const [label, re] of TRANSLATIONESE) {
+      if (re.test(text)) errors.push(`${rel(f)}:${line} 翻译腔「${label}」：${text.trim()}`)
+    }
+  }
+}
+
+const JARGON = [/沉淀/, /赋能/, /闭环/, /抓手/, /全链路/]
+
+/** 1c. 黑话（提示，人工判断是否必要） */
+for (const f of files) {
+  for (const { text, line } of parse(f)) {
+    for (const re of JARGON) {
+      if (re.test(text)) warnings.push(`${rel(f)}:${line} 疑似黑话，确认是否必要：${text.trim()}`)
+    }
+  }
+}
+
 /** 2. 正文不写实现标识（配套实验节内允许） */
 for (const f of files) {
   for (const { text, line, inExperiment } of parse(f)) {
