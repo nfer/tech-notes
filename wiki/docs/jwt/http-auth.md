@@ -27,13 +27,13 @@ RFC 6750 定义。英文 bearer 是「持票人」——像现金或无记名债
 
 OAuth 2.0 的 token 响应里有个 `token_type` 字段（RFC 6749 §5.1），就是告诉客户端「这个 token 该用哪种 scheme 发」。
 
-由此得到一条最重要的推论：**token 泄露 = 身份泄露**，没有第二道验证。
+由此得到一条推论：**token 泄露 = 身份泄露**，没有第二道验证。
 
 ## 在 HTTP 里怎么放
 
 - **Header（首选）**：`Authorization: Bearer <token>`。必须走 HTTPS，且不要把 token 放进 URL、日志、Referer 能带出去的地方。
 - **Query / 表单**：RFC 6750 允许，但明确不推荐——会进访问日志、浏览器历史、代理缓存。
-- **Cookie**：另一种载体，涉及 `HttpOnly`、`SameSite`、CSRF，留给「客户端存储」一篇展开。
+- **Cookie**：另一种载体，涉及 `HttpOnly`、`SameSite` 与 CSRF，属于客户端存储的问题。
 
 ## 401 与 403
 
@@ -47,7 +47,7 @@ HTTP/1.1 401 Unauthorized
 WWW-Authenticate: Bearer error="invalid_token", error_description="expired"
 ```
 
-这个头不只是装饰：客户端据此决定下一步动作——提示重新登录、或按 `error` 码做不同处理，而不是盲目重试。
+客户端据此决定下一步动作——提示重新登录、或按 `error` 码做不同处理，而不是盲目重试。
 
 ## 常见误区
 
@@ -70,7 +70,7 @@ WWW-Authenticate: Bearer error="invalid_token", error_description="expired"
 
 ## 附录：其它 Authorization scheme
 
-只需要知道 **Bearer 是 API 的事实标准**。下面这张表用于扩展了解，不需要记住：
+HTTP 认证 scheme 注册表中与 API 相关的几种：
 
 | Scheme | 含义 | 典型场景 |
 | --- | --- | --- |
@@ -80,5 +80,3 @@ WWW-Authenticate: Bearer error="invalid_token", error_description="expired"
 | `Negotiate` | Kerberos / SPNEGO（RFC 4559） | 企业内网 SSO |
 | `DPoP` | 持有 + 私钥持有证明（RFC 9449） | 防 token 被盗后重放，机器身份 |
 | `AWS4-HMAC-SHA256` | 请求签名 | AWS API |
-
-需要「偷了 token 也用不了」时，才需要 DPoP / mTLS 这类 **proof-of-possession** 方案。mTLS 不是 Authorization scheme，它工作在传输层。
