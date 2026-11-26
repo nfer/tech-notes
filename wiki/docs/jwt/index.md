@@ -10,6 +10,8 @@ order: 0
 ## 笔记
 
 - [**三段结构**](/jwt/structure) — `header.payload.signature` 各装了什么，签名到底签了哪些字节
+- [**HTTP 授权与 Bearer**](/jwt/http-auth) — `Authorization` 头、持有即授权的含义、401/403
+- [**登录语义与吊销**](/jwt/login-semantics) — 多设备各自独立，登出为什么要加状态
 
 ## 这套 Wiki 怎么用
 
