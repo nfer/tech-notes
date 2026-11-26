@@ -5,7 +5,7 @@
  * 验签只回答一个问题：内容有没有被改过、是不是我签的。
  * 它不回答：过没过期、是不是发给别的服务的、是不是已经被吊销。
  */
-import { sign, verifySignature, validateTimeClaims, nowSeconds } from './lib/jwt.mjs';
+import { sign, verifySignature, validateTimeClaims, nowSeconds } from '../lib/jwt.mjs';
 
 const SECRET = 'dev-secret-do-not-use-in-prod';
 

@@ -4,7 +4,7 @@
  * 根因：服务端如果「看 token 的 header 里写的是什么 alg，就用什么 alg 去验」，
  * 攻击者就可以直接声明 alg=none，并把签名段留空。
  */
-import { b64uJson, decode, verifySignature } from './lib/jwt.mjs';
+import { b64uJson, decode, verifySignature } from '../lib/jwt.mjs';
 
 // 攻击者手工拼一个 token：header 说 alg=none，没有签名
 const forged =

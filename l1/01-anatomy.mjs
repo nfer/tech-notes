@@ -1,4 +1,4 @@
-import { sign, decode, verifySignature, nowSeconds } from './lib/jwt.mjs';
+import { sign, decode, verifySignature, nowSeconds } from '../lib/jwt.mjs';
 
 const SECRET = 'dev-secret-do-not-use-in-prod';
 

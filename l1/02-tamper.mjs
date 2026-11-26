@@ -4,7 +4,7 @@
  * 场景：攻击者拿到了自己的合法 token，想把 role 从 user 改成 admin。
  * 关键问题：改完之后，服务端凭什么不信？
  */
-import { sign, decode, verifySignature, b64uJson } from './lib/jwt.mjs';
+import { sign, decode, verifySignature, b64uJson } from '../lib/jwt.mjs';
 
 const SECRET = 'dev-secret-do-not-use-in-prod';
 const token = sign({ sub: 'u_1001', name: '小明', role: 'user' }, SECRET, { expiresIn: 3600 });

@@ -10,7 +10,7 @@
 
 | 文件 | 作用 |
 | --- | --- |
-| `lib/jwt.mjs` | 手写 HS256 签发/验签（零依赖，只用 `node:crypto`） |
+| `../lib/jwt.mjs` | 手写 HS256 签发/验签（零依赖，只用 `node:crypto`） |
 | `01-anatomy.mjs` | 解剖三段、打印签名输入、对比正确/错误 secret |
 | `02-tamper.mjs` | 改 payload 的 role / 改 exp，观察签名失效；对比"不验签的服务端" |
 | `03-alg-none.mjs` | 伪造 `alg:none`，打穿一个天真实现 |
@@ -20,7 +20,7 @@
 
 ```bash
 cd jwt-lab
-./run 01-anatomy.mjs
+./run l1/01-anatomy.mjs
 ```
 
 ## 实验步骤：先预测，再运行
@@ -33,7 +33,7 @@ cd jwt-lab
 4. 跑 `03-alg-none.mjs`。然后改一下 `vulnerableVerify`，让它同时拒绝 `alg:"none"` 和接受 `alg:"HS256"`，验证伪造 token 被拦。
 5. 跑 `04-claims.mjs`。重点看第一段输出：签名合法的过期 token。
 
-## 课后问题（在对话里回答，答完进 Lesson 2）
+## 课后问题（已在对话中回答）
 
 - **Q1** JWT 为什么设计成"签名 + 明文"而不是加密？加密不是更安全吗？
 - **Q2** 用户点了「退出登录」，你要让那个已经发出去的 JWT 立刻失效，怎么做？代价是什么？
