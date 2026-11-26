@@ -59,13 +59,29 @@ const topics = readdirSync(docsRoot, { withFileTypes: true })
  * 用 Intl.Segmenter 按词切，搜「签名」才能命中「JWT 签名机制」。
  */
 function tokenizeZh(text: string): string[] {
-  if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
-    const segmenter = new Intl.Segmenter('zh-CN', { granularity: 'word' })
-    return [...segmenter.segment(text)]
-      .filter((part) => part.isWordLike)
-      .map((part) => part.segment)
+  const tokens: string[] = []
+  // 按中文/非中文切段，英文数字走普通分词
+  for (const part of text.split(/([\u4e00-\u9fff]+)/)) {
+    if (!part) continue
+    if (!/^[\u4e00-\u9fff]/.test(part)) {
+      for (const piece of part.toLowerCase().split(/[^\p{L}\p{N}]+/u)) {
+        if (piece) tokens.push(piece)
+      }
+      continue
+    }
+    // 词典分词（如「签名」「机制」）
+    if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
+      const segmenter = new Intl.Segmenter('zh-CN', { granularity: 'word' })
+      for (const piece of segmenter.segment(part)) {
+        if (piece.isWordLike) tokens.push(piece.segment)
+      }
+    } else {
+      tokens.push(...part)
+    }
+    // 二元组兜底（词典不认识的词，如「鉴权」）
+    for (let i = 0; i + 1 < part.length; i += 1) tokens.push(part.slice(i, i + 2))
   }
-  return text.split(/[^\p{L}\p{N}]+/u).filter(Boolean)
+  return tokens
 }
 
 export default defineConfig({
