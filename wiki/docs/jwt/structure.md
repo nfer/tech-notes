@@ -15,7 +15,7 @@ updated: 2026-11-26
 
 | 段 | 装什么 | 典型字段 | 谁生成 |
 | --- | --- | --- | --- |
-| header | 元数据 | `alg`（如 `HS256`）、`typ`、`kid` | 签发方 |
+| header | 元数据 | `alg`、`typ`、`kid` | 签发方 |
 | payload | claims（声明） | `sub`、`exp`、`iat`、`aud`、`iss`、`jti` | 签发方 |
 | signature | 签名值 | 签名算法输出的 base64url | 签发方（持有密钥） |
 
