@@ -9,6 +9,9 @@ hero:
     - theme: brand
       text: 进入 JWT
       link: /jwt/
+    - theme: alt
+      text: 从三段结构开始
+      link: /jwt/structure
 ---
 
 ## 这套 Wiki 怎么用

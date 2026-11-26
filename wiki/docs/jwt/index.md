@@ -9,7 +9,7 @@ order: 0
 
 ## 笔记
 
-- **三段结构** — `header.payload.signature` 各装了什么，签名到底签了哪些字节（待补）
+- [**三段结构**](/jwt/structure) — `header.payload.signature` 各装了什么，签名到底签了哪些字节
 
 ## 这套 Wiki 怎么用
 
