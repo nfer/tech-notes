@@ -10,9 +10,9 @@ order: 1
 ## 笔记
 
 - [**三段结构**](/jwt/structure) — `header.payload.signature` 各装了什么，签名到底签了哪些字节
+- [**claims 与校验**](/jwt/claims) — claim 是什么、七个注册名、校验顺序
 - [**HTTP 授权与 Bearer**](/jwt/http-auth) — `Authorization` 头、持有即授权的含义、401/403
 - [**登录语义与吊销**](/jwt/login-semantics) — 多设备各自独立，登出为什么要加状态
-- [**claims 与校验**](/jwt/claims) — claim 是什么、七个注册名、校验顺序
 
 ## 配套实验
 

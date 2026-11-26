@@ -1,6 +1,6 @@
 ---
 title: HTTP 授权与 Bearer
-order: 2
+order: 3
 description: Authorization 头、Bearer 的「持有即授权」、其它 scheme 与 401/403
 tags: [http, bearer, oauth2, rfc6750]
 updated: 2026-11-26

@@ -1,6 +1,6 @@
 ---
 title: claims 与校验
-order: 4
+order: 2
 description: claim 是什么、七个注册名，以及服务端按什么顺序校验它们
 tags: [jwt, claims, rfc7519]
 updated: 2026-11-26
