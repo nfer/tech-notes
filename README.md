@@ -1,33 +1,30 @@
-# Learning
+# 技术笔记
 
-一个学习工作区，两件事放在一起：
+按主题整理：概念、结论和坑记在 Wiki 里，每个主题的实验代码单独一个目录。
 
-| 目录 | 内容 |
+| 路径 | 内容 |
 | --- | --- |
-| `wiki/` | 个人 Wiki（VitePress）：概念、结论、坑，按主题组织 |
-| `jwt-lab/` | JWT 课程代码：零依赖 Node 实验，按课次组织 |
+| `wiki/` | 按主题组织的 Wiki（VitePress） |
+| `jwt-lab/` | JWT 主题的零依赖 Node 实验，按课次组织 |
 
 ## Wiki
 
 ```bash
 cd wiki
-./dev        # 默认 5173；端口被占用会自动顺延，以终端输出为准
+pnpm install   # 首次
+./dev          # 默认 5173；端口被占用会自动顺延，以终端输出为准
 ```
 
-`./dev`、`./build` 优先用 PATH 里的 `node`（nvm / Homebrew 均可），没有才退回运行时自带的 Node。第一次运行前需要 `./install`（已装好可跳过）。
-
-> 为什么不用运行时自带的 Node 构建：它的硬编码签名无法加载 rollup 的原生 `.node` 模块，`build` 会报 `different Team IDs`。
-
-新增主题：在 `wiki/docs/` 下建目录，写 `.md`，侧边栏和搜索会自动收录；目录标题在 `wiki/docs/.vitepress/config.mts` 的 `SECTION_TITLES` 里补一行。
+`./dev`、`./build`、`./check` 要求 PATH 里有 `node`（nvm / Homebrew 均可），找不到直接退出。node 不在 PATH 里时，用 `NODE_BIN` 指定它的路径。
 
 ## 课程
 
 ```bash
 cd jwt-lab
-./run l1/01-anatomy.mjs
+node l1/01-anatomy.mjs
 ```
 
 ## 约定
 
-- 概念写进 `wiki/docs/<主题>/`，实验代码写进 `jwt-lab/lN/`；课程 README 只讲步骤，概念链接到 Wiki。
+- 概念写进 `wiki/docs/<主题>/`，实验代码放在对应的 lab 目录；课程 README 只讲步骤，概念链接到 Wiki。
 - 每完成一课提交一次；commit 信息带 `l1` / `l2` 或 `docs(jwt)` 前缀。
