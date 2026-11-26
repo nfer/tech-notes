@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
-# 文档规则检查，对应 AGENTS.md 的写作规则
+# 文档规则检查：要求 PATH 里有 node，找不到直接退出
 set -euo pipefail
-if [ -n "${NODE_BIN:-}" ]; then
-  :
-elif command -v node >/dev/null 2>&1; then
-  NODE_BIN="$(command -v node)"
-else
-  NODE_BIN="$(command -v node)"
+NODE_BIN="${NODE_BIN:-$(command -v node || true)}"
+if [ -z "$NODE_BIN" ]; then
+  echo "需要 PATH 里有 node（或设置 NODE_BIN）" >&2
+  exit 1
 fi
 exec "$NODE_BIN" scripts/check-docs.mjs "$@"
