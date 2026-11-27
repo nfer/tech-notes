@@ -89,6 +89,7 @@ function tokenizeZh(text: string): string[] {
 
 export default defineConfig({
   lang: 'zh-CN',
+  base: '/tech-notes/',
   title: '个人 Wiki',
   description: '边学边记，按主题沉淀',
   lastUpdated: true,
